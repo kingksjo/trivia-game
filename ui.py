@@ -13,8 +13,7 @@ class QuizUI:
         self.window.configure(background=THEME_COLOR)
         self.window.config(padx=30, pady=22)
 
-        self.score = 0
-        self.score_label = tk.Label(text=f"Score {self.score}", background=THEME_COLOR, font=("Calibri", 17, "bold"))
+        self.score_label = tk.Label(text="Score 0", background=THEME_COLOR, font=("Calibri", 17, "bold"))
         self.score_label.grid(row=0, column=2)
 
         self.canvas = tk.Canvas(width=300, height=250, background="white", highlightthickness=0)
@@ -38,16 +37,28 @@ class QuizUI:
         self.window.mainloop()
 
     def get_next_question(self):
+        self.score_label.config(text=f"Score {self.quiz.score}")
+        self.canvas.config(background="white")
         ques_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=ques_text)
 
     def user_says_true(self):
-        self.quiz.check_answer("True")
-        self.get_next_question()
+        self.give_feedback(self.quiz.check_answer("True"))
+
 
     def user_says_false(self):
-        self.quiz.check_answer("False")
-        self.get_next_question()
+        self.give_feedback(self.quiz.check_answer("False"))
+
+
+    def give_feedback(self, is_right):
+        if is_right:
+            self.canvas.config(background="#90EE90")
+        else:
+            self.canvas.config(background="#FF6961")
+
+        self.window.after(1000, self.get_next_question)
+
+
 
 
 
