@@ -37,10 +37,16 @@ class QuizUI:
         self.window.mainloop()
 
     def get_next_question(self):
-        self.score_label.config(text=f"Score {self.quiz.score}")
         self.canvas.config(background="white")
-        ques_text = self.quiz.next_question()
-        self.canvas.itemconfig(self.question_text, text=ques_text)
+        if self.quiz.still_has_questions():
+            self.score_label.config(text=f"Score {self.quiz.score}")
+            ques_text = self.quiz.next_question()
+            self.canvas.itemconfig(self.question_text, text=ques_text)
+        else:
+            self.canvas.itemconfig(self.question_text,
+                text=f"That's the end of the quiz\nYou got {self.quiz.score} of {len(self.quiz.question_list)}")
+            self.correct_button.config(state="disabled")
+            self.wrong_button.config(state="disabled")
 
     def user_says_true(self):
         self.give_feedback(self.quiz.check_answer("True"))
