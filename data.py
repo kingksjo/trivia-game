@@ -107,7 +107,7 @@ parameters = {
     "type": "boolean"
 }
 
-# https://opentdb.com/api.php?amount=10&type=boolean    In case i don't feel like using parameters
+# https://opentdb.com/api.php?amount=10&type=boolean    In case I don't feel like using parameters
 response = requests.get(url="https://opentdb.com/api.php", params=parameters)
 response.raise_for_status()
 
